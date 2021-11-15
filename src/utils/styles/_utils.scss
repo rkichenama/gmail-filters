@@ -1,0 +1,45 @@
+$bg-clr: #131313;
+$fg-clr: darken(white, 15%);
+$accent: #00ffff;
+$accent-rgb: mix($accent, $accent);
+$dark-accent: darken($accent, 20%);
+$highlight: #ffff00;
+$loading-screen: rgba(0, 0, 0, 0.825);
+
+$rainbow: hsl(266, 45%, 45%), hsl(306, 51%, 49%), hsl(341, 98%, 64%),
+  hsl(15, 100%, 63%), hsl(45, 76%, 53%), hsl(85, 82%, 64%), hsl(126, 90%, 64%),
+  hsl(161, 76%, 49%), hsl(194, 72%, 49%), hsl(225, 67%, 58%), hsl(266, 82%, 70%);
+
+$magenta-crayola: #e65aae;
+$irresistible: #a34162;
+$brick-red: #d1495b;
+$tangerine: #e67c0a;
+$sunray: #edae49;
+$blue-munsell: #008da3;
+$bdazzled-blue: #3a5c9b;
+$asparagus: #729b51;
+$rainbow2: #{$magenta-crayola}, #{$irresistible}, #{$brick-red}, #{$tangerine}, #{$sunray}, #{$blue-munsell}, #{$bdazzled-blue}, #{$asparagus};
+
+$french-fuchsia: #fc368f;
+$cinnabar: #ee3c2f;
+$outrageous-orange: #ff6c47;
+$rajah: #ffb561;
+$corn: #ffea62;
+$spring-green: #61ff81;
+$dark-turquoise: #30d6d9;
+$blue-gray: #5295cb;
+$medium-orchid: #c25bd7;
+$rainbow3: #{$french-fuchsia}, #{$cinnabar}, #{$outrageous-orange}, #{$rajah}, #{$corn}, #{$spring-green}, #{$dark-turquoise}, #{$blue-gray}, #{$medium-orchid};
+
+$traffic-green: #2dc937;
+$traffic-yellow: #e7b416;
+$traffic-red: #cc3232;
+$image: hsl(306, 51%, 49%);
+$media: hsl(266, 82%, 70%);
+$text: hsl(194, 72%, 49%);
+$link:  hsl(126, 90%, 64%);
+$all: mix(
+  mix($image, $media, 50%),
+  mix($text, $link, 50%),
+  50%
+);

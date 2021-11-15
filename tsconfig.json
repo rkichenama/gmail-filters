@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react-jsx",
+    "lib": [ "esnext", "dom" ],
+    "module": "es6",
+    "noImplicitAny": false,
+    "outDir": "./dev/",
+    "preserveConstEnums": true,
+    "removeComments": true,
+    "target": "es2020",
+    "moduleResolution": "node"
+  },
+  "exclude": [ "node_modules", "dev" ]
+}

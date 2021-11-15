@@ -1,0 +1,10 @@
+@import "../../utils/styles/basic";
+@import "../../utils/styles/layout";
+
+#gmail-filter {
+  display: contents;
+
+  > * {
+    background-color: black;
+  }
+}

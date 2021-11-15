@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons'); // filled
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons+Outlined');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons+Round');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons+Sharp');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons+Two+Tone');
+
+.material-icons {
+  &,
+  &-sharp,
+  &-two-tone,
+  &-outlined,
+  &-round {
+    direction: ltr;
+    display: inline-block;
+    font-feature-settings: 'liga';
+    -webkit-font-feature-settings: 'liga';
+    font-size: unset;
+    font-style: normal;
+    font-weight: normal;
+    letter-spacing: normal;
+    line-height: 1;
+    text-transform: none;
+    white-space: nowrap;
+    word-wrap: normal;
+    -webkit-font-smoothing: antialiased;
+    vertical-align: middle;
+  }
+
+  & {
+    font-family: 'Material Icons';
+  }
+  &-outlined {
+    font-family: 'Material Icons Outlined';
+  }
+  &-round {
+    font-family: 'Material Icons Round';
+  }
+  &-two-tone {
+    font-family: 'Material Icons Two Tone';
+  }
+  &-sharp {
+    font-family: 'Material Icons Sharp';
+  }
+}

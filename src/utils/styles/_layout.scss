@@ -1,0 +1,76 @@
+@import 'utils';
+@for $i from 1 through 12 {
+  .w#{$i} { grid-column-end: span #{$i}; }
+  .h#{$i} { grid-row-end: span #{$i}; }
+  .x#{$i} { grid-column-start: #{$i}; }
+  .y#{$i} { grid-row-start: #{$i}; }
+}
+.one-row {
+  grid-template-rows: 1fr;
+  align-items: center;
+}
+.no-margin {
+  margin: 0;
+  &-y { margin-top: 0; margin-bottom: 0; }
+  &-x { margin-left: 0; margin-right: 0; }
+}
+.align {
+  &-fill {
+    align-self: stretch;
+    justify-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &-height {
+      align-self: stretch;
+    }
+    &-width {
+      justify-self: stretch;
+    }
+  }
+  &-top {
+    align-self: flex-start;
+  }
+  &-middle {
+    align-self: center;
+  }
+  &-bottom {
+    align-self: flex-end;
+  }
+  &-left {
+    justify-self: flex-start;
+  }
+  &-center {
+    justify-self: center;
+  }
+  &-right {
+    justify-self: flex-end;
+  }
+}
+*::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+  &-button {
+    width: 0px;
+    height: 0px;
+  }
+  &-track {
+    border: none;
+    border-radius: 0px;
+  }
+  &-thumb { background: var(--dark-accent, #{$dark-accent}); }
+  &-thumb:hover,
+  &-thumb:active { background: var(--accent, #{$accent}); }
+  &-track:hover,
+  &-track:active,
+  &-corner,
+  &-track { background: transparent; }
+}
+.scrollable {
+  overflow: auto;
+
+  &-y {
+    overflow-y: auto;
+  }
+}
