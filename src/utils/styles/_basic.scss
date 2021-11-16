@@ -1,3 +1,5 @@
+@import "./googleFonts";
+@import "./googleIcons";
 @import "./utils";
 
 body {
@@ -102,6 +104,8 @@ body {
   background-color: var(--bg-clr, #{$bg-clr});
   color: var(--fg-clr, #{$fg-clr});
   overflow: hidden;
+  grid-gap: 1rem;
+  padding: 1rem;
 }
 body,
 .as-grid {

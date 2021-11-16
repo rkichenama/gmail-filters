@@ -1,0 +1,1 @@
+export const alphaAsc = (a, b) => a.toLowerCase().localeCompare(b.toLowerCase());

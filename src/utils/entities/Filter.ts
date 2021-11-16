@@ -18,6 +18,7 @@ export default class MailFilter {
   shouldNeverSpam: boolean;
   shouldAlwaysMarkAsImportant: boolean;
   shouldNeverMarkAsImportant: boolean;
+  shouldStar: boolean;
   label: string; //
   from: string;
   to: string;

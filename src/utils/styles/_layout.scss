@@ -14,7 +14,16 @@
   &-y { margin-top: 0; margin-bottom: 0; }
   &-x { margin-left: 0; margin-right: 0; }
 }
+.flex {
+  display: flex;
+}
 .align {
+  &-evenly {
+    justify-content: space-evenly;
+  }
+  &-between {
+    justify-content: space-between;
+  }
   &-fill {
     align-self: stretch;
     justify-self: stretch;
@@ -73,4 +82,9 @@
   &-y {
     overflow-y: auto;
   }
+}
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
