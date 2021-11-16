@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {} from 'styled-components/cssprop';
 import { useFeedAuthor, useFeedDispatch } from '../../hooks/Feed';
+import { fromString } from '../../data/Feed/actions';
 
 const FileLoader = styled(({ className }) => {
   const dispatch = useFeedDispatch();
@@ -19,12 +20,12 @@ const FileLoader = styled(({ className }) => {
           const xmlFile = evt.target.files[0];
           var reader = new FileReader();
           reader.onload = ({ target: { result: xml } }) => {
-            dispatch({ type: 'fromString', xml })
+            dispatch(fromString(xml as string))
           }
           reader.readAsText(xmlFile);
         }
       } />
-      <div>
+      <div style={{ padding: '0 3px' }}>
         <div className='truncate'>
           Author: { author
             ? `${author.name} (${author.email})`

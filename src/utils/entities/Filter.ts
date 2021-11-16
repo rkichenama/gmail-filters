@@ -9,9 +9,13 @@ const asDateString = (d: Date = new Date()) => {
   return `${Y}-${M}-${D}T${h}:${m}:${s}Z`
 };
 
+const randomID = () => `GMF_${
+  Math.floor(Math.random() * Date.now()).toString(36)
+}`
+
 export default class MailFilter {
-  #title: string = 'Mail Filter';
-  #id: string;
+  title: string = 'Mail Filter';
+  id: string;
   shouldArchive: boolean;
   shouldMarkAsRead: boolean;
   shouldTrash: boolean;
@@ -27,16 +31,16 @@ export default class MailFilter {
   hasTheWord: string;
 
   constructor (node?: Element) {
+    this.id = randomID();
     if (node) {
       this.parse(node);
     }
   }
 
   get updated () { return asDateString(); }
-  get id () { return this.#id; }
 
   parse (node: Element) {
-    this.#id = node.querySelector('id').textContent;
+    this.id = node.querySelector('id').textContent;
     const properties = Array.from(node.children)
       .filter(({ tagName }) => /^apps:property/i.test(tagName));
     properties.forEach(({ attributes }) => {
@@ -46,11 +50,20 @@ export default class MailFilter {
     });
   }
 
+  static basedOn (obj) {
+    const filter = new this();
+    Object.entries(obj)
+      .forEach(([ key, value ]) => {
+        filter[key] = value;
+      });
+    return filter;
+  }
+
   toString () {
     return `<entry>
     <category term='filter'></category>
-    <title>${this.#title}</title>
-    <id>${this.#id}</id>
+    <title>${this.title}</title>
+    <id>${this.id}</id>
     <updated></updated>
     <content></content>${Object.entries(this)
       .reduce((t, [ key, value ]) => {

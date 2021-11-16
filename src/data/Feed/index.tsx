@@ -3,7 +3,7 @@ import Feed from '../../utils/entities/Feed';
 import Actions from './actions';
 import Reducer from '../reducer';
 
-const defaultState = {} as Feed;
+const defaultState = new Feed();
 
 export const FeedContext = React.createContext({
   state: defaultState,

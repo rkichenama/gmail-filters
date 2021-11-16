@@ -15,6 +15,15 @@ export default class Author {
     });
   }
 
+  static basedOn (obj) {
+    const filter = new this();
+    Object.entries(obj)
+      .forEach(([ key, value ]) => {
+        filter[key] = value;
+      });
+    return filter;
+  }
+
   toString () {
     return `<author>${Object.entries(this)
   .reduce((t, [ key, value ]) => {
