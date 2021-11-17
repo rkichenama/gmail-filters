@@ -24,9 +24,9 @@ const activeStyle = {
 };
 
 const FilterList = styled(({ className, id, style }) => {
-  const list = useFilterList();
   const [ activeTab, setActiveTab ] = React.useState(Tabs.Ungrouped);
 
+  // const list = useFilterList();
   // const byLabel = group<MailFilter>(list, [ 'label' ]);
   // const byFrom = group<MailFilter>(list, [ 'from' ]);
   // const byTo = group<MailFilter>(list, [ 'to' ]);

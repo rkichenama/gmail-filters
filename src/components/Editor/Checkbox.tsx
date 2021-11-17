@@ -67,10 +67,10 @@ const Label = styled.label`
   }
 `;
 
-const Checkbox = styled(({ className, label, onChange, value }) => {
+const Checkbox = styled(({ className, label, onChange, checked }) => {
   return (
     <Label {...{ className }}>
-      <Input type='checkbox' {...{ onChange, value }} />
+      <Input type='checkbox' {...{ onChange, checked }} />
       { label }
     </Label>
   );

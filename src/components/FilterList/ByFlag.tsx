@@ -7,7 +7,7 @@ import MailFilter from '../../utils/entities/Filter';
 import Heading from './Heading';
 import List from './List';
 import ListItem from './ListItem';
-import Summary from './Summary';
+import Filter from './Filter';
 import Detail from './Detail';
 import Zero from './Zero';
 
@@ -42,12 +42,7 @@ const ByFlag: React.FC<BasicProps> = ({ className, id, style }) => {
               <Detail title={<Heading>{item || 'N/A'}</Heading>}>
                 <List>
                   <For of={list} body={(item: MailFilter) => (
-                    <ListItem key={item.id}>
-                      { Object.entries(item).reduce((t, [ key, value ]) => {
-                        if (key === 'id') { return t; }
-                        return t.concat(<Summary key={key} {...{ name: key, value }} />);
-                      }, []) }
-                    </ListItem>
+                    <Filter key={item.id} {...{ item }} />
                   )} />
                 </List>
               </Detail>

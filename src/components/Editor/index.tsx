@@ -11,21 +11,44 @@ import Actions, { loadState, updateState } from './Actions';
 import { updateFilters } from '../../data/Feed/actions';
 import Heading from '../FilterList/Heading';
 import { useFeedDispatch } from '../../hooks/Feed';
+import { useSelectedFiltersDispatch, useSelectedFiltersList } from '../../hooks/SelectedFilters';
+import { clearSelectedFilters } from '../../data/SelectedFilters/actions';
 
 const separateWords = (s: string) => decamelize(
   s,
   { separator: ' ' }
 );
 
-const baseForm = [ new MailFilter() ];
-const prequisites = [ 'from', 'to', 'subject', 'doesNotHaveTheWord', 'hasTheWord', ];
-const rules = [ 'shouldArchive', 'shouldMarkAsRead', 'shouldTrash', 'shouldNeverSpam', 'shouldAlwaysMarkAsImportant', 'shouldNeverMarkAsImportant', 'shouldStar', 'label', ];
-const Editor = styled(({ className, filters }) => {
-  const globalDispatch = useFeedDispatch();
-  const [ state, dispatch ] = React.useReducer(Reducer<MailFilter>(Actions), new MailFilter());
+const defaultState = {
+  from: '',
+  to: '',
+  subject: '',
+  doesNotHaveTheWord: '',
+  hasTheWord: '',
+  label: '',
+  shouldArchive: false,
+  shouldMarkAsRead: false,
+  shouldTrash: false,
+  shouldNeverSpam: false,
+  shouldAlwaysMarkAsImportant: false,
+  shouldNeverMarkAsImportant: false,
+  shouldStar: false
+};
+const baseForm = [ MailFilter.basedOn(defaultState) ];
+const prequisites = [ 'from', 'to', 'subject', 'doesNotHaveTheWord', 'hasTheWord' ];
+const rules = [
+  'shouldArchive', 'shouldMarkAsRead', 'shouldTrash', 'shouldNeverSpam',
+  'shouldAlwaysMarkAsImportant', 'shouldNeverMarkAsImportant', 'shouldStar', 'label'
+];
+
+const Editor = styled(({ className }) => {
+  const feedDispatch = useFeedDispatch();
+  const selectedDispatch = useSelectedFiltersDispatch();
+  const filters = useSelectedFiltersList();
+  const [ state, localDispatch ] = React.useReducer(Reducer<MailFilter>(Actions), new MailFilter());
 
   const onChangeFor = React.useCallback((field: string) => (({ target }) => {
-    dispatch(updateState({
+    localDispatch(updateState({
       [field]: /checkbox/i.test(target.type)
         ? target.checked
         : target.value
@@ -37,94 +60,110 @@ const Editor = styled(({ className, filters }) => {
   ), [ state ]);
 
   React.useEffect(() => {
-    dispatch(loadState(baseForm));
+    localDispatch(loadState(baseForm));
   }, []);
   React.useEffect(() => {
-    dispatch(loadState(filters || baseForm));
+    localDispatch(loadState([ MailFilter.basedOn(defaultState) ]));
+    if (filters.length) {
+      localDispatch(loadState(filters));
+    }
   }, [ filters ]);
 
   return (
-    <div {...{ className: `${className} as-table`, style: { gridGap: '0.5rem' } }} >
-      <section className='w6'>
-        <Heading>The filter matches:</Heading>
-        <Text {...{
-          value: state.from,
-          onChange: onChangeFor('from'),
-          name: separateWords('from')
-        }} />
-        <Text {...{
-          value: state.to,
-          onChange: onChangeFor('to'),
-          name: separateWords('to')
-        }} />
-          <Text {...{
-            value: state.subject,
-            onChange: onChangeFor('subject'),
-            name: separateWords('subject')
-          }} />
-          <Text {...{
-            value: state.doesNotHaveTheWord,
-            onChange: onChangeFor('doesNotHaveTheWord'),
-            name: separateWords('doesNotHaveTheWord')
-          }} />
-          <Text {...{
-            value: state.hasTheWord,
-            onChange: onChangeFor('hasTheWord'),
-            name: separateWords('hasTheWord')
-          }} />
+    <div {...{ className: `${className}`, style: { gridGap: '0.5rem' } }} >
+      <section className='as-table scrollable-y' style={{ height: '100%' }}>
+        <div className='w12 h10 as-table'>
+          <section className='w6'>
+            <Heading>The filter matches:</Heading>
+            <Text {...{
+              value: state.from,
+              onChange: onChangeFor('from'),
+              name: separateWords('from')
+            }} />
+            <Text {...{
+              value: state.to,
+              onChange: onChangeFor('to'),
+              name: separateWords('to')
+            }} />
+              <Text {...{
+                value: state.subject,
+                onChange: onChangeFor('subject'),
+                name: separateWords('subject')
+              }} />
+              <Text {...{
+                value: state.doesNotHaveTheWord,
+                onChange: onChangeFor('doesNotHaveTheWord'),
+                name: separateWords('doesNotHaveTheWord')
+              }} />
+              <Text {...{
+                value: state.hasTheWord,
+                onChange: onChangeFor('hasTheWord'),
+                name: separateWords('hasTheWord')
+              }} />
+          </section>
+          <section className='w6'>
+            <Text {...{
+              value: state.label,
+              onChange: onChangeFor('label'),
+              name: separateWords('applyLabel')
+            }} />
+            <Heading>Mark the message...</Heading>
+            <Checkbox {...{
+              label: separateWords('Important'),
+              onChange: onChangeFor('shouldAlwaysMarkAsImportant'),
+              checked: state.shouldAlwaysMarkAsImportant
+            }} />
+            <Checkbox {...{
+              label: separateWords('NeverImportant'),
+              onChange: onChangeFor('shouldNeverMarkAsImportant'),
+              checked: state.shouldNeverMarkAsImportant
+            }} />
+            <Checkbox {...{
+              label: separateWords('Never Spam'),
+              onChange: onChangeFor('shouldNeverSpam'),
+              checked: state.shouldNeverSpam
+            }} />
+            <Checkbox {...{
+              label: separateWords('Read'),
+              onChange: onChangeFor('shouldMarkAsRead'),
+              checked: state.shouldMarkAsRead
+            }} />
+            <Checkbox {...{
+              label: separateWords('Starred'),
+              onChange: onChangeFor('shouldStar'),
+              checked: state.shouldStar
+            }} />
+            <Checkbox {...{
+              label: separateWords('Archived'),
+              onChange: onChangeFor('shouldArchive'),
+              checked: state.shouldArchive
+            }} />
+            <Checkbox {...{
+              label: separateWords('Trash'),
+              onChange: onChangeFor('shouldTrash'),
+              checked: state.shouldTrash
+            }} />
+          </section>
+        </div>
+        <hr className='w12' style={{ width: '85%' }} />
+        <Button className='primary x7 w2 material-icons' disabled={!enableSubmit}
+          onClick={() => {
+            feedDispatch(updateFilters([ state ], filters || []));
+            selectedDispatch(clearSelectedFilters());
+          }}
+        >save</Button>
+        <Button className='x10 w2'
+          onClick={() => {
+            if (filters.length) {
+              selectedDispatch(clearSelectedFilters());
+            } else {
+              localDispatch(loadState([ MailFilter.basedOn(defaultState) ]));
+            }
+          }}
+        >
+          Cancel
+        </Button>
       </section>
-      <section className='w6'>
-        <Text {...{
-          value: state.label,
-          onChange: onChangeFor('label'),
-          name: separateWords('applyLabel')
-        }} />
-        <Heading>Mark the message...</Heading>
-        <Checkbox {...{
-          label: separateWords('Important'),
-          onChange: onChangeFor('shouldAlwaysMarkAsImportant'),
-          value: state.shouldAlwaysMarkAsImportant
-        }} />
-        <Checkbox {...{
-          label: separateWords('NeverImportant'),
-          onChange: onChangeFor('shouldNeverMarkAsImportant'),
-          value: state.shouldNeverMarkAsImportant
-        }} />
-        <Checkbox {...{
-          label: separateWords('Never Spam'),
-          onChange: onChangeFor('shouldNeverSpam'),
-          value: state.shouldNeverSpam
-        }} />
-        <Checkbox {...{
-          label: separateWords('Read'),
-          onChange: onChangeFor('shouldMarkAsRead'),
-          value: state.shouldMarkAsRead
-        }} />
-        <Checkbox {...{
-          label: separateWords('Starred'),
-          onChange: onChangeFor('shouldStar'),
-          value: state.shouldStar
-        }} />
-        <Checkbox {...{
-          label: separateWords('Archived'),
-          onChange: onChangeFor('shouldArchive'),
-          value: state.shouldArchive
-        }} />
-        <Checkbox {...{
-          label: separateWords('Trash'),
-          onChange: onChangeFor('shouldTrash'),
-          value: state.shouldTrash
-        }} />
-      </section>
-      <hr className='w12' style={{ width: '85%' }} />
-      <Button className='primary x7 w2 material-icons' disabled={!enableSubmit} onClick={
-        () => {
-          globalDispatch(updateFilters([ state ], filters || []))
-        }
-      }>save</Button>
-      <Button className='x9 w2'>
-        Cancel
-      </Button>
     </div>
   )
 })`

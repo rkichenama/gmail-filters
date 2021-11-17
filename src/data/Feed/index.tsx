@@ -18,3 +18,4 @@ export const Provider = ({ children }) => {
     </FeedContext.Provider>
   )
 };
+Provider.displayName = 'FeedProvider';

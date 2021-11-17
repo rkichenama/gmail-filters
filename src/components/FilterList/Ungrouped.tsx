@@ -2,9 +2,9 @@ import { useFilterList } from '../../hooks/Feed';
 import { For } from '../../lib/controls';
 import MailFilter from '../../utils/entities/Filter';
 import List from './List';
-import ListItem from './ListItem';
-import Summary from './Summary';
+import Filter from './Filter';
 import Zero from './Zero';
+
 
 const Ungrouped: React.FC<BasicProps> = ({ className, id, style }) => {
   const list = useFilterList();
@@ -13,12 +13,7 @@ const Ungrouped: React.FC<BasicProps> = ({ className, id, style }) => {
     ? (
       <List {...{ className, id, style }}>
         <For of={list} body={(item: MailFilter) => (
-          <ListItem key={item.id}>
-            { Object.entries(item).reduce((t, [ key, value ]) => {
-              if (key === 'id') { return t; }
-              return t.concat(<Summary key={key} {...{ name: key, value }} />);
-            }, []) }
-          </ListItem>
+          <Filter key={item.id} {...{ item }} />
         )} />
       </List>
     )
@@ -26,3 +21,5 @@ const Ungrouped: React.FC<BasicProps> = ({ className, id, style }) => {
 };
 
 export default Ungrouped;
+
+

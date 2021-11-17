@@ -46,7 +46,9 @@ export default class MailFilter {
     properties.forEach(({ attributes }) => {
       const key = attributes.item(0).value;
       const value = attributes.item(1).value;
-      this[key] = value;
+      this[key] = /^should/.test(key)
+        ? /true/.test(value)
+        : value;
     });
   }
 

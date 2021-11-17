@@ -4,7 +4,7 @@ import {} from 'styled-components/cssprop';
 const Summary = styled(({ className, name, value }) => {
   return (
     <span {...{ className }}>
-      (<span className='highlight'>{name}</span> is {`${value}`})
+      (<span className='highlighted'>{name}</span> is {`${value}`})
     </span>
   )
 })`

@@ -2,8 +2,8 @@ import MailFilter from '../../utils/entities/Filter';
 
 export default {
   loadState: (_, { filters }) => {
-    const [first, ...rest ] = (filters as MailFilter[]);
-    rest
+    const [ first, ...rest ] = (filters as MailFilter[]);
+    const state = rest
       .reduce((t, c) => {
         Object.entries(c)
           .forEach(([ key, value ]) => {
@@ -16,8 +16,8 @@ export default {
             }
           });
         return t;
-      }, first);
-    return first;
+      }, { ...first } as MailFilter);
+    return state;
   },
   updateState: (state, { changes }) => ({
     ...state,

@@ -15,3 +15,8 @@ export const useFilterList = () => {
   const { state: { filters = {} } = {} } = React.useContext(FeedContext);
   return Object.values(filters);
 };
+
+export const useFilterDictionary = () => {
+  const { state: { filters = {} } = {} } = React.useContext(FeedContext);
+  return filters;
+};
