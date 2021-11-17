@@ -48,12 +48,13 @@ const Input = styled.input`
   }
   &:checked:after {
     content: 'task_alt';
-    color: var(--highlight);
+    color: cyan;
   }
 `;
 
 const Label = styled.label`
   display: block;
+  text-transform: capitalize;
 
   &:hover {
     color: var(--highlight);
@@ -67,11 +68,16 @@ const Label = styled.label`
   }
 `;
 
+const Field = styled.span`
+  display: inline-block;
+  text-transform: capitalize;
+`;
+
 const Checkbox = styled(({ className, label, onChange, checked }) => {
   return (
     <Label {...{ className }}>
       <Input type='checkbox' {...{ onChange, checked }} />
-      { label }
+      <Field>{ label }</Field>
     </Label>
   );
 })``;

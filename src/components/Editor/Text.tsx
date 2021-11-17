@@ -28,6 +28,8 @@ const Label = styled.label`
 
 const Field = styled.span`
   font-family: Abel;
+  text-transform: capitalize;
+  align-self: center;
 
   &::after {
     content: ':';

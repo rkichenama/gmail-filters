@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import {} from 'styled-components/cssprop';
-import { decamelize } from 'humps';
 import Checkbox from './Checkbox';
 import Text from './Text';
 import Button from '../FilterList/Button';
@@ -13,11 +12,7 @@ import Heading from '../FilterList/Heading';
 import { useFeedDispatch } from '../../hooks/Feed';
 import { useSelectedFiltersDispatch, useSelectedFiltersList } from '../../hooks/SelectedFilters';
 import { clearSelectedFilters } from '../../data/SelectedFilters/actions';
-
-const separateWords = (s: string) => decamelize(
-  s,
-  { separator: ' ' }
-);
+import { separateWords } from '../../utils';
 
 const defaultState = {
   from: '',
@@ -38,8 +33,24 @@ const baseForm = [ MailFilter.basedOn(defaultState) ];
 const prequisites = [ 'from', 'to', 'subject', 'doesNotHaveTheWord', 'hasTheWord' ];
 const rules = [
   'shouldArchive', 'shouldMarkAsRead', 'shouldTrash', 'shouldNeverSpam',
-  'shouldAlwaysMarkAsImportant', 'shouldNeverMarkAsImportant', 'shouldStar', 'label'
+  'shouldAlwaysMarkAsImportant', 'shouldNeverMarkAsImportant', 'shouldStar',
+  'label', 'forwardTo'
 ];
+
+const Fieldset = styled.fieldset`
+  border-color: #333333;
+
+  legend {
+    color: var(--highlight);
+  }
+`;
+const MultipleColumns = styled.section`
+  column-count: 2;
+
+  @media(max-width: 960px) {
+    column-count: 1;
+  }
+`;
 
 const Editor = styled(({ className }) => {
   const feedDispatch = useFeedDispatch();
@@ -74,17 +85,18 @@ const Editor = styled(({ className }) => {
       <section className='as-table scrollable-y' style={{ height: '100%' }}>
         <div className='w12 h10 as-table'>
           <section className='w6'>
-            <Heading>The filter matches:</Heading>
-            <Text {...{
-              value: state.from,
-              onChange: onChangeFor('from'),
-              name: separateWords('from')
-            }} />
-            <Text {...{
-              value: state.to,
-              onChange: onChangeFor('to'),
-              name: separateWords('to')
-            }} />
+            <Fieldset>
+              <legend>Matching Criteria</legend>
+              <Text {...{
+                value: state.from,
+                onChange: onChangeFor('from'),
+                name: separateWords('from')
+              }} />
+              <Text {...{
+                value: state.to,
+                onChange: onChangeFor('to'),
+                name: separateWords('to')
+              }} />
               <Text {...{
                 value: state.subject,
                 onChange: onChangeFor('subject'),
@@ -93,56 +105,74 @@ const Editor = styled(({ className }) => {
               <Text {...{
                 value: state.doesNotHaveTheWord,
                 onChange: onChangeFor('doesNotHaveTheWord'),
-                name: separateWords('doesNotHaveTheWord')
+                name: separateWords('doesNotHaveTheWord(s)')
               }} />
               <Text {...{
                 value: state.hasTheWord,
                 onChange: onChangeFor('hasTheWord'),
-                name: separateWords('hasTheWord')
+                name: separateWords('hasTheWord(s)')
               }} />
+            </Fieldset>
           </section>
           <section className='w6'>
-            <Text {...{
-              value: state.label,
-              onChange: onChangeFor('label'),
-              name: separateWords('applyLabel')
-            }} />
-            <Heading>Mark the message...</Heading>
-            <Checkbox {...{
-              label: separateWords('Important'),
-              onChange: onChangeFor('shouldAlwaysMarkAsImportant'),
-              checked: state.shouldAlwaysMarkAsImportant
-            }} />
-            <Checkbox {...{
-              label: separateWords('NeverImportant'),
-              onChange: onChangeFor('shouldNeverMarkAsImportant'),
-              checked: state.shouldNeverMarkAsImportant
-            }} />
-            <Checkbox {...{
-              label: separateWords('Never Spam'),
-              onChange: onChangeFor('shouldNeverSpam'),
-              checked: state.shouldNeverSpam
-            }} />
-            <Checkbox {...{
-              label: separateWords('Read'),
-              onChange: onChangeFor('shouldMarkAsRead'),
-              checked: state.shouldMarkAsRead
-            }} />
-            <Checkbox {...{
-              label: separateWords('Starred'),
-              onChange: onChangeFor('shouldStar'),
-              checked: state.shouldStar
-            }} />
-            <Checkbox {...{
-              label: separateWords('Archived'),
-              onChange: onChangeFor('shouldArchive'),
-              checked: state.shouldArchive
-            }} />
-            <Checkbox {...{
-              label: separateWords('Trash'),
-              onChange: onChangeFor('shouldTrash'),
-              checked: state.shouldTrash
-            }} />
+            <Fieldset>
+              <legend>Send the message...</legend>
+              <Text {...{
+                value: state.label,
+                onChange: onChangeFor('label'),
+                name: separateWords('applyLabel')
+              }} />
+              <Text {...{
+                value: state.smartLabelToApply,
+                onChange: onChangeFor('smartLabelToApply'),
+                name: separateWords('category')
+              }} />
+              <Text {...{
+                value: state.forwardTo,
+                onChange: onChangeFor('forwardTo'),
+                name: separateWords('forwardTo')
+              }} />
+            </Fieldset>
+            <Fieldset>
+              <legend>Mark the message...</legend>
+              <MultipleColumns>
+                <Checkbox {...{
+                  label: separateWords('Important'),
+                  onChange: onChangeFor('shouldAlwaysMarkAsImportant'),
+                  checked: state.shouldAlwaysMarkAsImportant
+                }} />
+                <Checkbox {...{
+                  label: separateWords('NeverImportant'),
+                  onChange: onChangeFor('shouldNeverMarkAsImportant'),
+                  checked: state.shouldNeverMarkAsImportant
+                }} />
+                <Checkbox {...{
+                  label: separateWords('Never Spam'),
+                  onChange: onChangeFor('shouldNeverSpam'),
+                  checked: state.shouldNeverSpam
+                }} />
+                <Checkbox {...{
+                  label: separateWords('Read'),
+                  onChange: onChangeFor('shouldMarkAsRead'),
+                  checked: state.shouldMarkAsRead
+                }} />
+                <Checkbox {...{
+                  label: separateWords('Starred'),
+                  onChange: onChangeFor('shouldStar'),
+                  checked: state.shouldStar
+                }} />
+                <Checkbox {...{
+                  label: separateWords('Archived'),
+                  onChange: onChangeFor('shouldArchive'),
+                  checked: state.shouldArchive
+                }} />
+                <Checkbox {...{
+                  label: separateWords('Trash'),
+                  onChange: onChangeFor('shouldTrash'),
+                  checked: state.shouldTrash
+                }} />
+              </MultipleColumns>
+            </Fieldset>
           </section>
         </div>
         <hr className='w12' style={{ width: '85%' }} />

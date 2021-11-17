@@ -24,8 +24,10 @@ export default class MailFilter {
   shouldNeverMarkAsImportant: boolean;
   shouldStar: boolean;
   label: string; //
+  smartLabelToApply: string; //
   from: string;
   to: string;
+  forwardTo: string;
   subject: string;
   doesNotHaveTheWord: string;
   hasTheWord: string;
