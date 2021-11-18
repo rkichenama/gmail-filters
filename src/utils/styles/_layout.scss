@@ -33,9 +33,11 @@
 
     &-height {
       align-self: stretch;
+      align-items: stretch;
     }
     &-width {
       justify-self: stretch;
+      justify-content: stretch;
     }
   }
   &-top {

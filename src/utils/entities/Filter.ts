@@ -23,8 +23,8 @@ export default class MailFilter {
   shouldAlwaysMarkAsImportant: boolean;
   shouldNeverMarkAsImportant: boolean;
   shouldStar: boolean;
-  label: string; //
-  smartLabelToApply: string; //
+  label: string;
+  smartLabelToApply: string;
   from: string;
   to: string;
   forwardTo: string;

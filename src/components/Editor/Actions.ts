@@ -1,4 +1,5 @@
 import MailFilter from '../../utils/entities/Filter';
+import uniq from 'lodash/uniq';
 
 export default {
   loadState: (_, { filters }) => {
@@ -12,7 +13,9 @@ export default {
             } else if (/boolean/i.test(typeof value)) {
               t[key] ||= value;
             } else {
-              t[key] += ` OR ${value}`;
+              t[key] = (t[key] || '').length
+                ? uniq<string>([ ...t[key].split(' OR '), value ]).join(' OR ')
+                : value;
             }
           });
         return t;

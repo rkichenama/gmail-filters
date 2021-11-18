@@ -26,7 +26,7 @@ const Flag = styled.span`
 `;
 const BooleanValue = ({ field, value }) => (
   value
-    ? <Flag>{separateWords(field)}</Flag>
+    ? <Flag>{separateWords(field.replace(/^should/, '').replace(/MarkAs/, ''))}</Flag>
     : null
 );
 
@@ -91,21 +91,26 @@ const Filter = styled(({ className, item }: { className?: string, item: MailFilt
       { texts.reduce((t, [ field, value ]) => {
         if (/(id|title|size)/.test(field)) { return t; }
         return t.concat(
-          <Attribute key={field} {...{
+          <TextValue key={field} {...{
             field: field.replace(/^smartLabel/, 'cagetgory'),
             value
           }} />
         );
       }, []) }
-      { flags.reduce((t, [ field, value ]) => {
-        if (/(id|title|size)/.test(field)) { return t; }
-        return t.concat(
-          <Attribute key={field} {...{
-            field: field.replace(/^smartLabel/, 'cagetgory'),
-            value
-          }} />
-        );
-      }, []) }
+      <UserText.Container>
+        <UserText.Field />
+        <UserText.Value>
+          { flags.reduce((t, [ field, value ]) => {
+            if (/(id|title|size)/.test(field)) { return t; }
+            return t.concat(
+              <BooleanValue key={field} {...{
+                field: field.replace(/^smartLabel/, 'cagetgory'),
+                value
+              }} />
+            );
+          }, []) }
+        </UserText.Value>
+      </UserText.Container>
       {/* {Object.entries(item).reduce((t, [ field, value ]) => {
         if (/(id|title|size)/.test(field)) { return t; }
         return t.concat(

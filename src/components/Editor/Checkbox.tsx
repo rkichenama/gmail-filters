@@ -52,30 +52,40 @@ const Input = styled.input`
   }
 `;
 
+const Field = styled.span`
+  display: inline-block;
+  text-transform: capitalize;
+  margin: 4px 0;
+`;
+
 const Label = styled.label`
+  --border-color: transparent;
   display: block;
+  border: 1px solid var(--border-color);
   text-transform: capitalize;
 
   &:hover {
     color: var(--highlight);
   }
-  &:nth-child(even) {
+  &:nth-child(odd) {
     background-color: #131313;
+  }
+  &:nth-child(even) {
+    background-color: #333333;
   }
 
   & + & {
-    margin-top: 0.5rem;
+    // margin-top: 0.5rem;
+  }
+
+  &[data-error="true"] {
+    --border-color: red;
   }
 `;
 
-const Field = styled.span`
-  display: inline-block;
-  text-transform: capitalize;
-`;
-
-const Checkbox = styled(({ className, label, onChange, checked }) => {
+const Checkbox = styled(({ className, label, onChange, checked, hasError }) => {
   return (
-    <Label {...{ className }}>
+    <Label {...{ className, 'data-error': hasError }}>
       <Input type='checkbox' {...{ onChange, checked }} />
       <Field>{ label }</Field>
     </Label>
