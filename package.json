@@ -1,13 +1,13 @@
 {
   "name": "gmail-filters",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A SPA to manage filters for GMail",
   "scripts": {
     "test:lint": "tsc --noEmit",
     "test:jest": "jest -c jest.config.js --coverage",
     "test": "run-s -l test:lint test:jest",
     "prebuild": "npm test",
-    "build": "webpack --mode production --output-path build",
+    "build": "webpack --mode production --output-path docs",
     "build:dev": "webpack --mode development",
     "dev": "webpack serve --mode development",
     "release": "standard-version -a",
@@ -93,7 +93,7 @@
   "standard-version": {
     "scripts": {
       "prerelease": "npm test",
-      "postchangelog": "npm run build:prod",
+      "postchangelog": "npm run build",
       "precommit": "git add -u"
     }
   }
