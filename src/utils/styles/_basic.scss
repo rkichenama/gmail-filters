@@ -215,6 +215,16 @@ a {
   --btn-bg: darkcyan;
   --btn-fg: white;
 
+  &.danger {
+    --btn-bg: maroon;
+    --btn-fg: white;
+
+    &:hover {
+      --btn-bg: red;
+      --btn-fg: black;
+    }
+  }
+
   &:hover {
     --btn-bg: cyan;
     --btn-fg: black;

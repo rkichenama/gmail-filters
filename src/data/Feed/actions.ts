@@ -34,3 +34,8 @@ export const updateFilters = (add: MailFilter[], remove: MailFilter[]) => ({
   type: 'updateFilters',
   add, remove
 })
+
+export const removeFilters = (remove: MailFilter[]) => ({
+  type: 'updateFilters',
+  add: [], remove
+})

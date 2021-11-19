@@ -6,6 +6,11 @@ export const useFeedDispatch = () => {
   return dispatch;
 };
 
+export const useFeed = () => {
+  const { state } = React.useContext(FeedContext);
+  return state;
+}
+
 export const useFeedAuthor = () => {
   const { state: { author = undefined } = {} } = React.useContext(FeedContext);
   return author;

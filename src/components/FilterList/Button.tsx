@@ -17,7 +17,7 @@ const Button = styled.button`
     background: var(--btn-bg);
   }
 
-  &:not([disabled]):not(.primary):hover {
+  &:not([disabled]):not(.primary):not(.danger):hover {
     font-weight: bold;
     background: hsla(0, 50%, 100%, 0.2);
     color: cyan;

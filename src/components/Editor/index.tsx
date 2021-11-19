@@ -3,12 +3,11 @@ import styled from 'styled-components';
 import {} from 'styled-components/cssprop';
 import Checkbox from './Checkbox';
 import Text from './Text';
-import Button from '../FilterList/Button';
+import ButtonWithIcon from '../FilterList/ButtonWithIcon';
 import MailFilter from '../../utils/entities/Filter';
 import Reducer from '../../data/reducer';
 import Actions, { loadState, updateState } from './Actions';
 import { updateFilters } from '../../data/Feed/actions';
-import Heading from '../FilterList/Heading';
 import { useFeedDispatch } from '../../hooks/Feed';
 import { useSelectedFiltersDispatch, useSelectedFiltersList } from '../../hooks/SelectedFilters';
 import { clearSelectedFilters } from '../../data/SelectedFilters/actions';
@@ -22,6 +21,8 @@ const defaultState = {
   doesNotHaveTheWord: '',
   hasTheWord: '',
   label: '',
+  smartLabelToApply: '',
+  forwardTo: '',
   shouldArchive: false,
   shouldMarkAsRead: false,
   shouldTrash: false,
@@ -138,18 +139,21 @@ const Editor = styled(({ className }) => {
               hasError: errors.label,
               onChange: onChangeFor('label'),
               name: separateWords('applyLabel'),
+              isSingle: true
             }} />
             <Text {...{
               value: state.smartLabelToApply,
               hasError: errors.smartLabelToApply,
               onChange: onChangeFor('smartLabelToApply'),
-              name: separateWords('category')
+              name: separateWords('category'),
+              isSingle: true
             }} />
             <Text {...{
               value: state.forwardTo,
               hasError: errors.forwardTo,
               onChange: onChangeFor('forwardTo'),
-              name: separateWords('forwardTo')
+              name: separateWords('forwardTo'),
+              isSingle: true
             }} />
           </Fieldset>
         </section>
@@ -204,13 +208,19 @@ const Editor = styled(({ className }) => {
         {/* <hr className='w12' style={{ width: '85%' }} /> */}
       </section>
       <section className='as-grid one-row align-fill-height'>
-        <Button className='primary x7 w2 material-icons' disabled={!enableSubmit}
+        <ButtonWithIcon className='primary x4 w2' disabled={!enableSubmit} title='Save Filter'
           onClick={() => {
             feedDispatch(updateFilters([ state ], filters || []));
             selectedDispatch(clearSelectedFilters());
           }}
-        >save</Button>
-        <Button className='x10 w2'
+        >save</ButtonWithIcon>
+        <ButtonWithIcon className='primary danger x7 w2' disabled={!filters?.length} title='Delete Source Filter(s)'
+          onClick={() => {
+            feedDispatch(updateFilters([], filters || []));
+            selectedDispatch(clearSelectedFilters());
+          }}
+        >delete_forever</ButtonWithIcon>
+        <ButtonWithIcon className='x10 w2' title='Reset Form'
           onClick={() => {
             if (filters.length) {
               selectedDispatch(clearSelectedFilters());
@@ -218,9 +228,7 @@ const Editor = styled(({ className }) => {
               localDispatch(loadState([ MailFilter.basedOn(defaultState) ]));
             }
           }}
-        >
-          Cancel
-        </Button>
+        >restart_alt</ButtonWithIcon>
       </section>
     </div>
   )

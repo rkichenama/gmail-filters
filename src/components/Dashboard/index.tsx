@@ -7,10 +7,10 @@ const Row = styled.section`
   display: grid;
   grid-template-columns: 4fr 1fr;
   align-items: center;
-  padding: 0 4px;
+  padding: 0.2rem;
 `;
 const Cell = styled.div`
-  font-variant-numeric: oldstyle-nums slashed-zero
+  font-variant-numeric: oldstyle-nums slashed-zero;
 
   &:last-child {
     justify-self: self-end;
@@ -21,7 +21,7 @@ const Dash = styled(({ className, label, count }) => {
   return (
     <Row {...{ className }}>
       <Cell>{ label }</Cell>
-      <Cell>{ count }</Cell>
+      <Cell>{ count.toLocaleString() }</Cell>
     </Row>
   );
 })`

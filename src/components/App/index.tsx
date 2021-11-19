@@ -6,6 +6,8 @@ import Dashboard from '../Dashboard';
 import FileLoader from '../FileLoader';
 
 import './index.scss';
+import Button from '../FilterList/Button';
+import Download from '../Download';
 
 const App = () => (
   <FeedProvider>
@@ -18,7 +20,7 @@ const App = () => (
       <div className='x9 y10 h3 w4'>
         <p><code>smartLabelToApply</code> {'=>'} Category</p>
       </div>
-      <div className='x5 y10 h3 w4' />
+      <Download className='x5 y10 h3 w4' />
     </SelectedFiltersProvider>
   </FeedProvider>
 );
